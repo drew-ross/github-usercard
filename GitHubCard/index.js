@@ -153,4 +153,5 @@ getGitHub('https://api.github.com/users/drew-ross/following')
           cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
         })
     })
-  });
+  })
+  .catch(error => console.log(error));
