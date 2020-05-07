@@ -55,14 +55,20 @@ getGitHub('https://api.github.com/users/drew-ross')
 //   });
 
 
-const followingArray = ['mrzacsmith', 'Impulse2020', 'ferror18', 'karenwinnielei', 'JDMTias'];
 
-followingArray.forEach(user => {
-  getGitHub(`https://api.github.com/users/${user}`)
-  .then(result => {
-    const person = result.data;
-    cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
-})});
+//ACTUAL STEP 5
+// const followingArray = ['mrzacsmith', 'Impulse2020', 'ferror18', 'karenwinnielei', 'JDMTias'];
+
+// followingArray.forEach(user => {
+//   getGitHub(`https://api.github.com/users/${user}`)
+//     .then(result => {
+//       const person = result.data;
+//       cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+//     })
+// });
+
+
+
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -129,3 +135,22 @@ const cardCreator = (attrs) => {
 
   return card;
 }
+
+
+///STRETCH
+
+getGitHub('https://api.github.com/users/drew-ross/following')
+  .then(result => {
+    const follows = [];
+    result.data.forEach(person => follows.push(person.url));
+    return follows;
+  })
+  .then(follows => {
+    follows.forEach(user => {
+      getGitHub(user)
+        .then(result => {
+          const person = result.data;
+          cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+        })
+    })
+  });
