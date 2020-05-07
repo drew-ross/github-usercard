@@ -30,9 +30,9 @@ const getGitHub = (url) => {
 */
 getGitHub('https://api.github.com/users/drew-ross')
   .then(result => {
-        let data = result.data;
-        cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: data.name, profileUserName: data.login, profileLocation: data.location, githubUrl: data.html_url, profileFollowers: data.followers, profileFollowing: data.following, profileBio: data.bio }));
-      })
+    let data = result.data;
+    cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: data.name, profileUserName: data.login, profileLocation: data.location, githubUrl: data.html_url, profileFollowers: data.followers, profileFollowing: data.following, profileBio: data.bio }));
+  })
   .catch(error => console.log(error));
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -45,7 +45,17 @@ getGitHub('https://api.github.com/users/drew-ross')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+//used following instead because I'm currently following more users than are following me. Also, GitHub restricts the number of allowed API calls per hour. This method only requires a single API call, but does not get all information, such as name and bio etc.
+getGitHub('https://api.github.com/users/drew-ross/following')
+  .then(result => {
+    result.data.forEach(person => {
+      cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+    })
+  });
+
+
+const followingArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
