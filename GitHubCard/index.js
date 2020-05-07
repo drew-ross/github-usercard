@@ -31,7 +31,8 @@ const getGitHub = (url) => {
 getGitHub('https://api.github.com/users/drew-ross')
   .then(result => {
         let data = result.data;
-        cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: result.data.name, profileUserName: result.data.login, profileLocation: result.data.location, githubUrl: result.data.html_url, profileFollowers: result.data.followers, profileFollowing: result.data.following, profileBio: result.data.bio }))})
+        cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: data.name, profileUserName: data.login, profileLocation: data.location, githubUrl: data.html_url, profileFollowers: data.followers, profileFollowing: data.following, profileBio: data.bio }));
+      })
   .catch(error => console.log(error));
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
