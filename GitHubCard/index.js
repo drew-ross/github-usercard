@@ -45,18 +45,24 @@ getGitHub('https://api.github.com/users/drew-ross')
     user, and adding that card to the DOM.
 */
 
-//used following instead because I'm currently following more users than are following me. Also, GitHub restricts the number of allowed API calls per hour. This method only requires a single API call, but does not get all information, such as name and bio etc.
-getGitHub('https://api.github.com/users/drew-ross/following')
+//GitHub restricts the number of allowed API calls per hour. This method only requires a single API call, but does not get all information, such as name and bio etc.
+
+// getGitHub('https://api.github.com/users/drew-ross/following')
+//   .then(result => {
+//     result.data.forEach(person => {
+//       cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+//     })
+//   });
+
+
+const followingArray = ['mrzacsmith', 'Impulse2020', 'ferror18', 'karenwinnielei', 'JDMTias'];
+
+followingArray.forEach(user => {
+  getGitHub(`https://api.github.com/users/${user}`)
   .then(result => {
-    result.data.forEach(person => {
-      cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
-    })
-  });
-
-
-const followingArray = [];
-
-
+    const person = result.data;
+    cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+})});
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
