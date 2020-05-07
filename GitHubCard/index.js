@@ -30,8 +30,7 @@ const getGitHub = (url) => {
 */
 getGitHub('https://api.github.com/users/drew-ross')
   .then(result => {
-    let data = result.data;
-    cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: data.name, profileUserName: data.login, profileLocation: data.location, githubUrl: data.html_url, profileFollowers: data.followers, profileFollowing: data.following, profileBio: data.bio }));
+    cards.append(cardCreator(result.data));
   })
   .catch(error => console.log(error));
 /*
@@ -98,8 +97,7 @@ getGitHub('https://api.github.com/users/drew-ross')
     bigknell
 */
 
-const cardCreator = (attrs) => {
-  const { imageUrl, profileName, profileUserName, profileLocation, githubUrl, profileFollowers, profileFollowing, profileBio } = attrs;
+const cardCreator = (dataObj) => {
 
   const card = document.createElement('div');
   const cardInfo = document.createElement('div');
@@ -118,17 +116,17 @@ const cardCreator = (attrs) => {
   name.classList.add('name');
   userName.classList.add('user-name');
 
-  userImage.src = imageUrl;
-  github.href = githubUrl;
+  userImage.src = dataObj.avatar_url;
+  github.href = dataObj.html_url;
 
-  name.innerText = profileName;
-  userName.innerText = profileUserName;
-  location.innerText = `Location: ${profileLocation}`;
-  github.innerText = githubUrl;
+  name.textContent = dataObj.name;
+  userName.textContent = dataObj.login;
+  location.textContent = `Location: ${dataObj.location}`;
+  github.textContent = dataObj.html_url;
   profile.innerHTML = `Profile: ${github}`;
-  followers.innerText = `Followers: ${profileFollowers}`;
-  following.innerText = `Following: ${profileFollowing}`;
-  bio.innerText = `Bio: ${profileBio}`;
+  followers.textContent = `Followers: ${dataObj.followers}`;
+  following.textContent = `Following: ${dataObj.following}`;
+  bio.textContent = `Bio: ${dataObj.bio}`;
 
   cardInfo.append(name, userName, location, profile, followers, following, bio);
   card.append(userImage, cardInfo);
@@ -149,8 +147,8 @@ getGitHub('https://api.github.com/users/drew-ross/following')
     follows.forEach(user => {
       getGitHub(user)
         .then(result => {
-          const person = result.data;
-          cards.append(cardCreator({ imageUrl: person.avatar_url, profileName: person.name, profileUserName: person.login, profileLocation: person.location, githubUrl: person.html_url, profileFollowers: person.followers, profileFollowing: person.following, profileBio: person.bio }));
+          // debugger;
+          cards.append(cardCreator(result.data));
         })
     })
   })
