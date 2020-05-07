@@ -3,10 +3,18 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+const cards = document.querySelector('.cards');
 
-axios.get(`https://api.github.com/users/drew-ross`)
-  .then(result => console.log(result))
-  .catch(error => console.log(error));
+// axios.get(`https://api.github.com/users/drew-ross`)
+//   .then(result => {
+//     let data = result.data;
+//     cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: result.data.name, profileUserName: result.data.login, profileLocation: result.data.location, githubUrl: result.data.html_url, profileFollowers: result.data.followers, profileFollowing: result.data.following, profileBio: result.data.bio }))
+//   })
+//   .catch(error => console.log(error));
+
+const getGitHub = (url) => {
+  return axios.get(url);
+}
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -20,7 +28,11 @@ axios.get(`https://api.github.com/users/drew-ross`)
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
-
+getGitHub('https://api.github.com/users/drew-ross')
+  .then(result => {
+        let data = result.data;
+        cards.append(cardCreator({ imageUrl: data.avatar_url, profileName: result.data.name, profileUserName: result.data.login, profileLocation: result.data.location, githubUrl: result.data.html_url, profileFollowers: result.data.followers, profileFollowing: result.data.following, profileBio: result.data.bio }))})
+  .catch(error => console.log(error));
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -64,7 +76,7 @@ const followersArray = [];
 */
 
 const cardCreator = (attrs) => {
-  const {imageUrl, profileName, profileUserName, profileLocation, githubUrl, profileFollowers, profileFollowing, profileBio} = attrs;
+  const { imageUrl, profileName, profileUserName, profileLocation, githubUrl, profileFollowers, profileFollowing, profileBio } = attrs;
 
   const card = document.createElement('div');
   const cardInfo = document.createElement('div');
