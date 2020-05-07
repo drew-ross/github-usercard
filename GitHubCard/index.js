@@ -4,6 +4,10 @@
     https://api.github.com/users/<your name>
 */
 
+axios.get(`https://api.github.com/users/drew-ross`)
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -51,10 +55,48 @@ const followersArray = [];
 */
 
 /*
-  List of LS Instructors Github username's:
+  List of LS Instructors Github usernames:
     tetondan
     dustinmyers
     justsml
     luishrd
     bigknell
 */
+
+const cardCreator = (attrs) => {
+  const {imageUrl, profileName, profileUserName, profileLocation, githubUrl, profileFollowers, profileFollowing, profileBio} = attrs;
+
+  const card = document.createElement('div');
+  const cardInfo = document.createElement('div');
+  const userImage = document.createElement('img');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  const github = document.createElement('a');
+
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('user-name');
+
+  userImage.src = imageUrl;
+  github.href = githubUrl;
+
+  name.innerText = profileName;
+  userName.innerText = profileUserName;
+  location.innerText = `Location: ${profileLocation}`;
+  github.innerText = githubUrl;
+  profile.innerHTML = `Profile: ${github}`;
+  followers.innerText = `Followers: ${profileFollowers}`;
+  following.innerText = `Following: ${profileFollowing}`;
+  bio.innerText = `Bio: ${profileBio}`;
+
+  cardInfo.append(name, userName, location, profile, followers, following, bio);
+  card.append(userImage, cardInfo);
+
+  return card;
+}
